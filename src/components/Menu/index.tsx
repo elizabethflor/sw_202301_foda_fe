@@ -1,32 +1,30 @@
-//import { setShowMenu, selectShowMenu } from "@store/Slices/appSlice";
-//import { useSelector, useDispatch } from "react-redux";
+import { setShowMenu, selectShowMenu } from "@store/Slices/appSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-//import { selectAuth, resetSecData } from "@store/Slices/secSlice";
+import { selectAuth, resetSecData } from "@store/Slices/secSlice";
 
-import {BiLogIn, BiLogOut, BiUserPlus } from 'react-icons/bi';
+import {BiLogIn, BiLogOut, BiUser, BiUserPlus } from 'react-icons/bi';
 
 import "./Menu.css";
 
-const Menu = ({setShowMenu, selectShowMenu, showMenu}) => {
-  const user = {token: ''}; //useSelector(selectAuth);
-  //const showMenu = useSelector(selectShowMenu);
-  //const dispatch = useDispatch();
+const Menu = () => {
+  const user = useSelector(selectAuth);
+  const showMenu = useSelector(selectShowMenu);
+  const dispatch = useDispatch();
   const classNames = showMenu ? "menu" : "menu hidden";
   const navigate = useNavigate();
   const onClickHandler = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
-    //dispatch(setShowMenu(!showMenu));
-    setShowMenu(!showMenu);
+    dispatch(setShowMenu(!showMenu));
     navigate((e.target as HTMLAnchorElement).getAttribute("href")||'');
   };
   const onLogoutHandler = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
     e.stopPropagation();
-    //dispatch(resetSecData());
-    //dispatch(setShowMenu(!showMenu));
-    setShowMenu(!showMenu);
-    //navigate("/login");
+    dispatch(resetSecData());
+    dispatch(setShowMenu(!showMenu));
+    navigate("/login");
   };
   if (!user?.token) {
     return (
@@ -51,17 +49,17 @@ const Menu = ({setShowMenu, selectShowMenu, showMenu}) => {
         <ul>
           <li>
             <a href="/home" onClick={onLogoutHandler}>
-              <BiLogOut/>&nbsp;Home
+              <BiLogOut/>&nbsp;Cerrar Sesión
             </a>
           </li>
            <li>
-            <a href="/version" onClick={onClickHandler}>
-              <BiLogOut/>&nbsp;Version
+            <a href="/cashflow" onClick={onClickHandler}>
+              <BiLogOut/>&nbsp;CashFlow
             </a>
           </li>
            <li>
-            <a href="/another" onClick={onClickHandler}>
-              <BiLogOut/>&nbsp;Not Page Yet
+            <a href="/admin/cashflow" onClick={onClickHandler}>
+              <BiLogOut/>&nbsp;Admin CashFlow
             </a>
           </li>
         </ul>
